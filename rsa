@@ -1,0 +1,33 @@
+import sys
+from sympy import isprime, factorint
+
+# Function to factorize a number into prime factors p and q
+def factorize(n):
+    if isprime(n):
+        return None, None
+    factors = factorint(n)
+    if len(factors) != 2:
+        return None, None
+    p, q = factors.keys()
+    return p, q
+
+# Check if the script is provided with the input file
+if len(sys.argv) != 2:
+    print("Usage: rsa <file>")
+    sys.exit(1)
+
+input_file = sys.argv[1]
+
+try:
+    with open(input_file, 'r') as file:
+        for line in file:
+            n = int(line.strip())
+            p, q = factorize(n)
+            if p is not None:
+                print(f"{n}={p}*{q}")
+
+except FileNotFoundError:
+    print(f"File '{input_file}' not found.")
+except ValueError:
+    print("Invalid input in the file. Please ensure it contains valid natural numbers.")
+
