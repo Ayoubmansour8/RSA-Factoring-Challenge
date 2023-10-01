@@ -1,0 +1,29 @@
+import sys
+
+# Function to factorize a number into two smaller numbers
+def factorize(n):
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return i, n // i
+    return None, None
+
+# Check if the script is provided with the input file
+if len(sys.argv) != 2:
+    print("Usage: factors <file>")
+    sys.exit(1)
+
+input_file = sys.argv[1]
+
+try:
+    with open(input_file, 'r') as file:
+        for line in file:
+            n = int(line.strip())
+            p, q = factorize(n)
+            if p is not None:
+                print(f"{n}={p}*{q}")
+
+except FileNotFoundError:
+    print(f"File '{input_file}' not found.")
+except ValueError:
+    print("Invalid input in the file. Please ensure all lines contain valid natural numbers greater than 1.")
+
